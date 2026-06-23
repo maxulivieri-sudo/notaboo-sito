@@ -1,0 +1,13 @@
+/* Spaziature più ariose per i titoli display. */
+.hero h1,
+.section-wrap h2,
+.contact-band h2,
+.edition-hero h1 {
+  letter-spacing: -0.045em;
+}
+
+.program-item h3,
+.edition-video__copy h2,
+.next-edition h2 {
+  letter-spacing: -0.035em;
+}

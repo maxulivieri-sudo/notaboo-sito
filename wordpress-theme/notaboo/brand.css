@@ -1,0 +1,12 @@
+.brand {
+  gap: 9px;
+}
+
+.brand-logo {
+  background: #000;
+  border-radius: 4px;
+  display: block;
+  height: 46px;
+  object-fit: contain;
+  width: 34px;
+}
