@@ -13,7 +13,7 @@ function notaboo_asset_url($path = '') {
 
 function notaboo_enqueue_assets() {
     wp_enqueue_style('notaboo-fonts', 'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Space+Grotesk:wght@400;500;600;700&display=swap', array(), null);
-    $stylesheets = array('styles.css', 'project.css', 'brand.css', 'typography.css', 'deployment.css');
+    $stylesheets = array('styles.css', 'project.css', 'brand.css', 'typography.css', 'deployment.css', 'wordpress.css');
     if (is_page_template(array('page-edizione-2024.php', 'page-edizione-2025.php', 'page-edizione-2026.php'))) {
         $stylesheets[] = 'edition.css';
     }
