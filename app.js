@@ -151,6 +151,12 @@ function editionPage() {
     groupStyles.href = themeAsset('multi-speakers.css');
     document.head.append(groupStyles);
   }
+  if (!document.querySelector('link[href="navigation.css"]')) {
+    const navigationStyles = document.createElement('link');
+    navigationStyles.rel = 'stylesheet';
+    navigationStyles.href = themeAsset('navigation.css');
+    document.head.append(navigationStyles);
+  }
   document.title = `NoTaboo ${e.year} — ${e.theme}`;
   document.querySelector('[data-year]').textContent = e.year;
   document.querySelector('[data-theme]').textContent = e.theme;

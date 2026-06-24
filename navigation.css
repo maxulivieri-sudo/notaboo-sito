@@ -1,0 +1,117 @@
+/* Navigazione principale: leggibile sopra alle immagini, con una CTA riconoscibile. */
+.site-header {
+  height: auto;
+  isolation: isolate;
+  padding: 20px 5vw;
+}
+
+.site-header::after {
+  background: rgba(9, 9, 11, .78);
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .24);
+  content: "";
+  inset: 11px 3.5vw;
+  position: absolute;
+  z-index: -1;
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  backdrop-filter: blur(18px) saturate(130%);
+}
+
+.site-header .brand {
+  padding-left: 13px;
+}
+
+.site-header .brand-mark {
+  box-shadow: 0 0 0 4px rgba(230, 255, 72, .14);
+}
+
+.desktop-nav {
+  align-items: center;
+  gap: 5px;
+  margin-left: 8vw;
+}
+
+.desktop-nav a {
+  border-radius: 999px;
+  color: rgba(255, 255, 255, .94);
+  font-weight: 700;
+  padding: 10px 14px;
+  transition: background .22s ease, color .22s ease, transform .22s ease;
+}
+
+.desktop-nav a::after { display: none; }
+
+.desktop-nav a:hover {
+  background: rgba(255, 255, 255, .14);
+  color: var(--acid);
+  transform: translateY(-1px);
+}
+
+.nav-cta {
+  align-items: center;
+  background: var(--acid);
+  border: 1px solid var(--acid);
+  box-shadow: 0 7px 18px rgba(0, 0, 0, .22);
+  color: var(--ink);
+  display: inline-flex;
+  gap: 7px;
+  padding: 12px 17px 12px 19px;
+  transition: background .22s ease, border-color .22s ease, transform .22s ease;
+}
+
+.nav-cta:hover {
+  background: var(--coral);
+  border-color: var(--coral);
+  transform: translateY(-2px) rotate(-1deg);
+}
+
+.nav-cta span {
+  font-size: 18px;
+  line-height: 1;
+  margin: 0;
+}
+
+/* Le pagine archivio restano chiare, ma ordinate nello stesso sistema. */
+.edition-header::after {
+  background: rgba(246, 242, 236, .86);
+  border-color: rgba(13, 13, 13, .14);
+  box-shadow: 0 10px 25px rgba(13, 13, 13, .08);
+}
+
+.edition-header .brand { color: var(--ink); }
+
+.edition-header .back-link {
+  background: rgba(13, 13, 13, .06);
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  transition: background .2s ease, transform .2s ease;
+}
+
+.edition-header .back-link:hover {
+  background: var(--pink);
+  transform: translateY(-1px);
+}
+
+.edition-header .nav-cta {
+  border-color: var(--ink);
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    height: 69px;
+    padding: 10px 23px;
+  }
+
+  .site-header::after {
+    border-radius: 18px;
+    inset: 6px 14px;
+  }
+
+  .site-header .brand { padding-left: 6px; }
+
+  .menu-button { z-index: 1; }
+
+  .edition-header::after { display: none; }
+}
