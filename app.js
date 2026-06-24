@@ -124,7 +124,7 @@ editionData[2026] = {
     { time: '10:30 – 11:15', title: 'Poesia', people: [{ name: 'Serena Vestene', role: 'Scrittrice · Pittrice · OEAS', photo: `${P2026}serena_bc27b9de.png` }], description: ['La poesia come chiave di avvicinamento comunicativo ed empatico: metafora, allegoria e poesia erotica per risvegliare immaginazione, emozioni e desiderio.'] },
     { time: '11:15 – 12:15', title: 'La bocca che sente: piacere, voce e sessualità', people: [{ name: 'Simona Spinoglio', role: 'Psicologa, educatrice professionale, counselor', photo: `${P2026}simona_1f604b60.jpg` }], description: ['La bocca del piacere, del desiderio, del contatto e dell’intimità. Voce, respiro e suono come forme di relazione corporea, anche nei contesti di disabilità e medicalizzazione.'] },
     { time: '12:15 – 13:15', title: 'Diritti, non salvezza: cosa vogliono le sex worker', people: [{ name: 'Grace', role: 'Sex worker · Attivista', photo: `${P2026}grace_7481ec0b.jpeg` }], description: ['Le voci delle persone che fanno sex work, spesso ignorate nel dibattito pubblico: decriminalizzazione, riduzione della violenza, dei rischi e dell’isolamento.', 'Sarà possibile proporre domande anonime.'] },
-    { time: '14:30 – 15:30', title: 'Porno-rivoluzione: i protagonisti del cambiamento', people: [{ name: 'Il Mima', role: 'Pornoattore', photo: `${P2026}il_mima_76ab16a3.jpeg` }, { name: 'Edonè Kali Yuga', role: 'Pornoattrice', photo: `${P2026}edonekali_ae9e7bfa.jpg` }, { name: 'Nemesi Widow', role: 'Pornoattrice', photo: `${P2026}nemesi_a67eea3f.jpeg` }, { name: 'Ines Alma Latina', role: 'Pornoattrice', photo: `${P2026}ines_a5c05146.jpeg` }], description: ['Cosa accade quando al centro della pornografia entrano corpi non conformi, bisogni specifici e possibilità diverse?', 'Esperienze dirette per mettere in crisi gli standard dominanti e aprire lo spazio a una sessualità più vera, varia e meno patinata.'] },
+    { time: '14:30 – 15:30', title: 'Porno-rivoluzione: i protagonisti del cambiamento', people: [{ name: 'Il Mima', role: 'Pornoattore', photo: `${P2026}il_mima_76ab16a3.jpeg` }, { name: 'Nemesi Widow', role: 'Pornoattrice', photo: `${P2026}nemesi_a67eea3f.jpeg` }, { name: 'Ines Alma Latina', role: 'Pornoattrice', photo: `${P2026}ines_a5c05146.jpeg` }], description: ['Cosa accade quando al centro della pornografia entrano corpi non conformi, bisogni specifici e possibilità diverse?', 'Esperienze dirette per mettere in crisi gli standard dominanti e aprire lo spazio a una sessualità più vera, varia e meno patinata.'] },
     { time: '15:30 – 16:30', title: 'L’arte del burlesque', people: [{ name: 'Jazz Chimera', role: 'Artista burlesque', photo: `${P2026}jazz_3aefbff0.png` }], description: ['Mein Herr: un act dal musical Cabaret. In un club della Berlino degli anni ’30, Sally Bowles porta sul palco una sensualità selvatica, cresciuta in cattività.'] },
     { time: '16:30 – 18:30', title: 'Orgia Vestita', label: 'Laboratorio', people: [{ name: 'Tei Giunta', role: 'Consulente relazionale, educatrice sessuale e ADHD coach', photo: `${P2026}tei_d3c427d2.jpeg` }], description: ['Un viaggio erotico che parte dalla mente per arrivare al corpo: fantasie, focalizzazione sensoriale, embodiment, consenso, contatto e role playing in un contesto guidato e sicuro.', 'Per esplorare i desideri in modo esplicito e consapevole, superando imbarazzi e copioni limitanti.'] },
     { time: '16:30 – 18:30', title: 'Corpo Poetico® — Ricerca per altri movimenti', label: 'Laboratorio', people: [{ name: 'Anna Albertarelli', role: 'Formatrice, acting dance coach, coreografa', photo: `${P2026}anna_albertarelli_3ac41601.png` }], description: ['Un laboratorio esperienziale sulla consapevolezza e la libertà corporea, con strumenti della danza contemporanea e del teatro fisico.', 'Attivazione percettiva, movimento, espressività, ascolto non verbale e cooperazione: non sono richieste esperienze precedenti.'] },
@@ -144,6 +144,12 @@ function editionPage() {
     archiveStyles.rel = 'stylesheet';
     archiveStyles.href = themeAsset('edition-2024.css');
     document.head.append(archiveStyles);
+  }
+  if (!document.querySelector('link[href="multi-speakers.css"]')) {
+    const groupStyles = document.createElement('link');
+    groupStyles.rel = 'stylesheet';
+    groupStyles.href = themeAsset('multi-speakers.css');
+    document.head.append(groupStyles);
   }
   document.title = `NoTaboo ${e.year} — ${e.theme}`;
   document.querySelector('[data-year]').textContent = e.year;
@@ -179,11 +185,13 @@ function editionPage() {
     if (Array.isArray(item)) return `<article class="program-item"><div class="program-time">${item[0]}</div><div><p class="program-index">${String(index + 1).padStart(2,'0')}</p><h3>${item[1]}</h3><p class="program-guest">${item[2]}</p><p class="program-description">${item[3]}</p></div><span class="program-symbol">✦</span></article>`;
     const day = item.day ? `<p class="program-day">${item.day}</p>` : '';
     const label = item.label ? `<p class="program-label">${item.label}</p>` : '';
-    const portraits = item.people.filter(person => person.photo).map(person => `<img src="${themeAsset(person.photo)}" alt="${person.name}" loading="lazy" />`).join('');
+    const portraitPeople = item.people.filter(person => person.photo);
+    const portraits = portraitPeople.map(person => `<img src="${themeAsset(person.photo)}" alt="${person.name}" loading="lazy" />`).join('');
+    const portraitClass = portraitPeople.length > 1 ? `speaker-portraits speaker-portraits--group speaker-portraits--${portraitPeople.length}` : 'speaker-portraits';
     const people = item.people.map(person => `<div class="speaker"><h4>${person.name}</h4><p>${person.role}</p></div>`).join('');
     const description = item.description.map(text => `<p>${text}</p>`).join('');
     const gallery = item.gallery?.length ? `<div class="event-gallery"><p class="gallery-label">Dentro l’incontro</p><div class="gallery-grid">${item.gallery.map((photo, photoIndex) => { const image = themeAsset(photo); return `<button type="button" class="gallery-image" data-gallery-src="${image}" aria-label="Apri foto ${photoIndex + 1} di ${item.title}"><img src="${image}" alt="Momento dal talk ${item.title}" loading="lazy" /></button>`; }).join('')}</div></div>` : '';
-    return `${day}<article class="program-item program-item--full"><div class="program-time">${item.time}</div><div class="program-full-content"><p class="program-index">${String(index + 1).padStart(2,'0')}</p>${label}<h3>${item.title}</h3><div class="program-full-body${portraits ? '' : ' no-portrait'}"><div class="speaker-portraits">${portraits}</div><div><div class="speaker-list">${people}</div><div class="program-description">${description}</div>${gallery}</div></div></div><span class="program-symbol">✦</span></article>`;
+    return `${day}<article class="program-item program-item--full"><div class="program-time">${item.time}</div><div class="program-full-content"><p class="program-index">${String(index + 1).padStart(2,'0')}</p>${label}<h3>${item.title}</h3><div class="program-full-body${portraits ? '' : ' no-portrait'}"><div class="${portraitClass}">${portraits}</div><div><div class="speaker-list">${people}</div><div class="program-description">${description}</div>${gallery}</div></div></div><span class="program-symbol">✦</span></article>`;
   }).join('');
 }
 

@@ -1,0 +1,30 @@
+/* Gruppi di relatori: una piccola costellazione, non una colonna infinita. */
+.speaker-portraits--group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 260px;
+  width: 100%;
+}
+
+.speaker-portraits--group img {
+  height: auto;
+  width: 100%;
+}
+
+.speaker-portraits--3 img:last-child {
+  grid-column: 1 / 3;
+  justify-self: center;
+  width: calc(50% - 5px);
+}
+
+@media (max-width: 760px) {
+  .speaker-portraits--group {
+    gap: 5px;
+    width: 105px;
+  }
+
+  .speaker-portraits--3 img:last-child {
+    width: calc(50% - 3px);
+  }
+}
