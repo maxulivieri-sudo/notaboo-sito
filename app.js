@@ -52,19 +52,24 @@ const editionData = {
   }
 };
 
-const officialLogo = 'assets/brand/logo-notaboo.png';
-const brandStyles = document.createElement('link');
-brandStyles.rel = 'stylesheet';
-brandStyles.href = 'brand.css';
-document.head.append(brandStyles);
-const typographyStyles = document.createElement('link');
-typographyStyles.rel = 'stylesheet';
-typographyStyles.href = 'typography.css';
-document.head.append(typographyStyles);
-const deploymentStyles = document.createElement('link');
-deploymentStyles.rel = 'stylesheet';
-deploymentStyles.href = 'deployment.css';
-document.head.append(deploymentStyles);
+const themeUrl = window.noTabooTheme?.url?.replace(/\/$/, '') || '';
+const themeAsset = (path) => {
+  if (!path || /^(?:https?:|data:|\/\/)/i.test(path)) return path;
+  return themeUrl ? `${themeUrl}/${path.replace(/^\//, '')}` : path;
+};
+const officialLogo = themeAsset('assets/brand/logo-notaboo.png');
+
+// Nel prototipo statico questi fogli non sono nel markup iniziale. Nel tema
+// WordPress sono invece già caricati da functions.php: evitarne un secondo
+// caricamento con un URL relativo, che nelle pagine /edizione-xxxx/ darebbe 404.
+if (!themeUrl) {
+  ['brand.css', 'typography.css', 'deployment.css'].forEach((stylesheet) => {
+    const style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.href = stylesheet;
+    document.head.append(style);
+  });
+}
 const favicon = document.querySelector('link[rel~="icon"]') || document.createElement('link');
 favicon.rel = 'icon';
 favicon.type = 'image/png';
@@ -107,7 +112,7 @@ function editionPage() {
   if (year === '2025' && !document.querySelector('link[href="edition-2024.css"]')) {
     const archiveStyles = document.createElement('link');
     archiveStyles.rel = 'stylesheet';
-    archiveStyles.href = 'edition-2024.css';
+    archiveStyles.href = themeAsset('edition-2024.css');
     document.head.append(archiveStyles);
   }
   document.title = `NoTaboo ${e.year} — ${e.theme}`;
@@ -115,15 +120,15 @@ function editionPage() {
   document.querySelector('[data-theme]').textContent = e.theme;
   document.querySelector('[data-date]').textContent = e.date;
   document.querySelector('[data-intro]').textContent = e.intro;
-  document.querySelector('[data-hero-image]').style.backgroundImage = `url("${e.photo}")`;
+  document.querySelector('[data-hero-image]').style.backgroundImage = `url("${themeAsset(e.photo)}")`;
   if (year === '2025') {
-    document.querySelector('.gallery-one').style.backgroundImage = 'url("assets/edizione-2025/finale-notaboo.jpg")';
+    document.querySelector('.gallery-one').style.backgroundImage = `url("${themeAsset('assets/edizione-2025/finale-notaboo.jpg')}")`;
     document.querySelector('.gallery-one').style.gridColumn = 'span 2';
     document.querySelector('.gallery-two').style.display = 'none';
     document.querySelector('.next-edition .button--acid').style.color = 'var(--ink)';
   }
   if (year === '2024') {
-    document.querySelector('.gallery-one').style.backgroundImage = 'url("assets/edizione-2024/finale-pubblico.jpg")';
+    document.querySelector('.gallery-one').style.backgroundImage = `url("${themeAsset('assets/edizione-2024/finale-pubblico.jpg')}")`;
     document.querySelector('.gallery-one').style.gridColumn = 'span 2';
     document.querySelector('.gallery-two').style.display = 'none';
     document.querySelector('.next-edition .button--acid').style.color = 'var(--ink)';
@@ -139,10 +144,10 @@ function editionPage() {
     if (Array.isArray(item)) return `<article class="program-item"><div class="program-time">${item[0]}</div><div><p class="program-index">${String(index + 1).padStart(2,'0')}</p><h3>${item[1]}</h3><p class="program-guest">${item[2]}</p><p class="program-description">${item[3]}</p></div><span class="program-symbol">✦</span></article>`;
     const day = item.day ? `<p class="program-day">${item.day}</p>` : '';
     const label = item.label ? `<p class="program-label">${item.label}</p>` : '';
-    const portraits = item.people.filter(person => person.photo).map(person => `<img src="${person.photo}" alt="${person.name}" loading="lazy" />`).join('');
+    const portraits = item.people.filter(person => person.photo).map(person => `<img src="${themeAsset(person.photo)}" alt="${person.name}" loading="lazy" />`).join('');
     const people = item.people.map(person => `<div class="speaker"><h4>${person.name}</h4><p>${person.role}</p></div>`).join('');
     const description = item.description.map(text => `<p>${text}</p>`).join('');
-    const gallery = item.gallery?.length ? `<div class="event-gallery"><p class="gallery-label">Dentro l’incontro</p><div class="gallery-grid">${item.gallery.map((photo, photoIndex) => `<button type="button" class="gallery-image" data-gallery-src="${photo}" aria-label="Apri foto ${photoIndex + 1} di ${item.title}"><img src="${photo}" alt="Momento dal talk ${item.title}" loading="lazy" /></button>`).join('')}</div></div>` : '';
+    const gallery = item.gallery?.length ? `<div class="event-gallery"><p class="gallery-label">Dentro l’incontro</p><div class="gallery-grid">${item.gallery.map((photo, photoIndex) => { const image = themeAsset(photo); return `<button type="button" class="gallery-image" data-gallery-src="${image}" aria-label="Apri foto ${photoIndex + 1} di ${item.title}"><img src="${image}" alt="Momento dal talk ${item.title}" loading="lazy" /></button>`; }).join('')}</div></div>` : '';
     return `${day}<article class="program-item program-item--full"><div class="program-time">${item.time}</div><div class="program-full-content"><p class="program-index">${String(index + 1).padStart(2,'0')}</p>${label}<h3>${item.title}</h3><div class="program-full-body${portraits ? '' : ' no-portrait'}"><div class="speaker-portraits">${portraits}</div><div><div class="speaker-list">${people}</div><div class="program-description">${description}</div>${gallery}</div></div></div><span class="program-symbol">✦</span></article>`;
   }).join('');
 }
