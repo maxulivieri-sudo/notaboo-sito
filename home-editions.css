@@ -1,0 +1,12 @@
+/* Immagini d'archivio della sezione edizioni: il 2026 resta volutamente grafico. */
+.image-2026 {
+  background: #101010 url("assets/brand/logo-notaboo.png") center / min(52%, 310px) auto no-repeat;
+}
+
+.image-2025 {
+  background: url("assets/edizione-2025/oeas/NT067.jpg") center / cover;
+}
+
+.image-2024 {
+  background: url("assets/edizione-2024/copertina-evento.jpg") center 42% / cover;
+}
