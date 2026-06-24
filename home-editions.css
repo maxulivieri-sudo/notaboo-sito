@@ -1,12 +1,23 @@
 /* Immagini d'archivio della sezione edizioni: il 2026 resta volutamente grafico. */
+.edition-card__image .edition-archive-image {
+  display: block;
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  position: absolute;
+  width: 100%;
+}
+
 .image-2026 {
-  background: #101010 url("assets/brand/logo-notaboo.png") center / min(52%, 310px) auto no-repeat;
+  background: #101010;
 }
 
-.image-2025 {
-  background: url("assets/edizione-2025/oeas/NT067.jpg") center / cover;
+.edition-card__image .edition-archive-image--logo {
+  object-fit: contain;
+  padding: 14px 20%;
 }
 
+.image-2025,
 .image-2024 {
-  background: url("assets/edizione-2024/copertina-evento.jpg") center 42% / cover;
+  background: #111;
 }
