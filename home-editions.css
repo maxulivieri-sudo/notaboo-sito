@@ -5,7 +5,16 @@
   inset: 0;
   object-fit: cover;
   position: absolute;
+  transition: transform .6s cubic-bezier(.16,.84,.44,1);
   width: 100%;
+}
+
+.edition-card:hover .edition-archive-image {
+  transform: scale(1.06);
+}
+
+.edition-card:hover .edition-archive-image--logo {
+  transform: scale(1.08);
 }
 
 .image-2026 {

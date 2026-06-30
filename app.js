@@ -203,11 +203,22 @@ function editionPage() {
 
 document.querySelector('#year')?.append(new Date().getFullYear());
 editionPage();
+const header = document.querySelector('.site-header');
+const updateHeaderState = () => header?.classList.toggle('is-scrolled', window.scrollY > 40);
+updateHeaderState();
+window.addEventListener('scroll', updateHeaderState, { passive: true });
 const menu = document.querySelector('.menu-button');
 menu?.addEventListener('click', () => { const open = menu.getAttribute('aria-expanded') === 'true'; menu.setAttribute('aria-expanded', String(!open)); document.querySelector('.mobile-menu').classList.toggle('is-open'); });
 document.querySelectorAll('.mobile-menu a').forEach(link => link.addEventListener('click', () => { menu?.setAttribute('aria-expanded','false'); document.querySelector('.mobile-menu').classList.remove('is-open'); }));
 function getLightbox() { let dialog = document.querySelector('.image-lightbox'); if (!dialog) { dialog = document.createElement('dialog'); dialog.className = 'image-lightbox'; dialog.setAttribute('aria-label', 'Foto ingrandita'); dialog.innerHTML = '<button class="lightbox-close" type="button" aria-label="Chiudi foto">×</button><img src="" alt="Foto dell’evento" />'; document.body.append(dialog); } return dialog; }
 document.addEventListener('click', (event) => { const trigger = event.target.closest('.gallery-image'); if (!trigger) return; const dialog = getLightbox(); dialog.querySelector('img').src = trigger.dataset.gallerySrc; dialog.showModal(); });
 document.addEventListener('click', (event) => { const dialog = document.querySelector('.image-lightbox'); if (dialog && (event.target.closest('.lightbox-close') || event.target === dialog)) dialog.close(); });
-const observer = new IntersectionObserver((entries) => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('is-visible')), { threshold: .12 });
-document.querySelectorAll('.edition-card,.values-grid article,.program-item').forEach(el => observer.observe(el));
+const observer = new IntersectionObserver((entries) => entries.forEach(entry => { if (!entry.isIntersecting) return; entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }), { threshold: .12 });
+document.querySelectorAll('.edition-card,.values-grid article,.project-card,.faq details,.program-item,.quote-band p').forEach((el, index) => {
+  el.classList.add('reveal');
+  el.style.setProperty('--reveal-delay', `${(index % 4) * 70}ms`);
+  observer.observe(el);
+});
+requestAnimationFrame(() => {
+  document.querySelectorAll('.hero .reveal').forEach((el, index) => setTimeout(() => el.classList.add('is-visible'), 150 + index * 130));
+});
