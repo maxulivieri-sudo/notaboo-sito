@@ -6,7 +6,29 @@
   background: #000;
   border-radius: 4px;
   display: block;
-  height: 46px;
+  height: 42px;
   object-fit: contain;
-  width: 34px;
+  width: 42px;
+}
+
+/* Il menu resta davvero centrato anche quando logo e CTA hanno larghezze diverse. */
+@media (min-width: 761px) {
+  .site-header {
+    display: grid;
+    gap: 28px;
+    grid-template-columns: minmax(180px, 1fr) auto minmax(180px, 1fr);
+  }
+
+  .site-header .brand {
+    justify-self: start;
+  }
+
+  .site-header .desktop-nav {
+    align-items: center;
+    justify-self: center;
+  }
+
+  .site-header .nav-cta {
+    justify-self: end;
+  }
 }

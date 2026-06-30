@@ -13,7 +13,16 @@ function notaboo_asset_url($path = '') {
 
 function notaboo_enqueue_assets() {
     wp_enqueue_style('notaboo-fonts', 'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Space+Grotesk:wght@400;500;600;700&display=swap', array(), null);
-    $stylesheets = array('styles.css', 'project.css', 'brand.css', 'typography.css', 'deployment.css', 'wordpress.css');
+    // Ogni pagina parte dalle fondamenta comuni. Gli stili della home vengono
+    // caricati solo lì: condividono alcuni nomi di classe con l'archivio e,
+    // se caricati insieme, alterano hero, menu e gallerie delle edizioni.
+    $stylesheets = array('styles.css', 'brand.css', 'typography.css', 'wordpress.css');
+
+    if (is_front_page()) {
+        $stylesheets[] = 'project.css';
+        $stylesheets[] = 'deployment.css';
+    }
+
     if (is_page_template(array('page-edizione-2024.php', 'page-edizione-2025.php', 'page-edizione-2026.php'))) {
         $stylesheets[] = 'edition.css';
     }
