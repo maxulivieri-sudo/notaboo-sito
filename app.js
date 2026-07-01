@@ -220,5 +220,5 @@ document.querySelectorAll('.edition-card,.values-grid article,.project-card,.faq
   observer.observe(el);
 });
 requestAnimationFrame(() => {
-  document.querySelectorAll('.hero .reveal').forEach((el, index) => setTimeout(() => el.classList.add('is-visible'), 150 + index * 130));
+  document.querySelectorAll('.hero .reveal, .collab-hero .reveal').forEach((el, index) => setTimeout(() => el.classList.add('is-visible'), 150 + index * 130));
 });
