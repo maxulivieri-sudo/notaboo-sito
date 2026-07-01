@@ -21,18 +21,26 @@ body.collab-page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 900px;
+  max-width: 1120px;
 }
 
 .collab-hero__copy h1 {
   font-family: var(--space);
-  font-size: clamp(4.8rem, 12vw, 12.5rem);
+  font-size: clamp(4.8rem, 11vw, 10.5rem);
   letter-spacing: -0.075em;
   line-height: .78;
   margin: 0 0 26px;
   overflow-wrap: anywhere;
   text-transform: uppercase;
   word-break: break-word;
+}
+
+.collab-hero__copy h1 .line {
+  display: block;
+}
+
+.collab-hero__copy h1 .accent-azioni {
+  color: var(--coral);
 }
 
 .collab-hero__copy > p:not(.eyebrow) {
