@@ -8,12 +8,20 @@ body.collab-page {
 
 .collab-hero {
   align-items: center;
-  display: grid;
-  gap: clamp(28px, 5vw, 76px);
-  grid-template-columns: minmax(0, 1.05fr) minmax(280px, .95fr);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 5vw, 52px);
   min-height: 86vh;
   overflow: hidden;
   padding: 150px 5vw 70px;
+  text-align: center;
+}
+
+.collab-hero__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
 }
 
 .collab-hero__copy h1 {
@@ -22,25 +30,30 @@ body.collab-page {
   letter-spacing: -0.075em;
   line-height: .78;
   margin: 0 0 26px;
+  overflow-wrap: anywhere;
   text-transform: uppercase;
+  word-break: break-word;
 }
 
 .collab-hero__copy > p:not(.eyebrow) {
   font-size: clamp(1.15rem, 2vw, 1.65rem);
   line-height: 1.25;
-  max-width: 820px;
+  max-width: 700px;
 }
 
 .collab-hero__media {
   border: 1px solid rgba(13, 13, 13, .18);
   border-radius: 42px;
   box-shadow: 18px 18px 0 var(--ink);
-  min-height: 560px;
+  margin-inline: auto;
+  max-width: 420px;
   overflow: hidden;
   transform: rotate(1.5deg);
+  width: 100%;
 }
 
 .collab-hero__media img {
+  aspect-ratio: 1 / 1;
   display: block;
   height: 100%;
   object-fit: cover;
@@ -192,14 +205,6 @@ body.collab-page {
   .collab-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-
-  .collab-hero {
-    grid-template-columns: 1fr;
-  }
-
-  .collab-hero__media {
-    min-height: 420px;
-  }
 }
 
 @media (max-width: 760px) {
@@ -208,7 +213,7 @@ body.collab-page {
   }
 
   .collab-hero__copy h1 {
-    font-size: clamp(3.8rem, 18vw, 6.4rem);
+    font-size: clamp(2.4rem, 11vw, 5rem);
   }
 
   .collab-intro {
@@ -222,7 +227,7 @@ body.collab-page {
   .collab-hero__media {
     border-radius: 26px;
     box-shadow: 8px 8px 0 var(--ink);
-    min-height: 300px;
+    max-width: 280px;
   }
 
   .collab-cta {
