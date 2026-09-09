@@ -158,7 +158,7 @@ function editionPage() {
     document.head.append(navigationStyles);
   }
   document.title = `NoTaboo ${e.year} — ${e.theme}`;
-  document.querySelector('[data-year]').textContent = e.year;
+  document.querySelectorAll('[data-year]').forEach((node) => { node.textContent = e.year; });
   document.querySelector('[data-theme]').textContent = e.theme;
   document.querySelector('[data-date]').textContent = e.date;
   document.querySelector('[data-intro]').textContent = e.intro;
@@ -187,21 +187,69 @@ function editionPage() {
     videoStyles.textContent = '.edition-video{align-items:center;background:#121212;color:#fff;display:grid;gap:7vw;grid-template-columns:minmax(240px,.58fr) minmax(0,1.15fr);padding:88px 9vw}.edition-video__copy .eyebrow{color:var(--acid);margin:0 0 16px}.edition-video__copy h2{font:700 clamp(3.2rem,5.8vw,6.2rem)/.85 var(--space);letter-spacing:-.09em;margin:0}.edition-video__copy h2 em{color:var(--coral);font-style:normal}.edition-video__copy>p:last-child{color:#d7d1cb;font-size:15px;line-height:1.5;max-width:260px;margin:25px 0 0}.edition-video__frame{background:#000;border:1px solid rgba(255,255,255,.2);box-shadow:16px 16px 0 var(--coral);line-height:0;overflow:hidden}.edition-video__frame iframe{aspect-ratio:16/9;border:0;display:block;width:100%}@media(max-width:760px){.edition-video{display:block;padding:63px 23px}.edition-video__copy{margin-bottom:33px}.edition-video__copy h2{font-size:3.5rem}.edition-video__frame{box-shadow:9px 9px 0 var(--coral)}}';
     document.head.append(videoStyles);
   }
-  document.querySelector('[data-program]').innerHTML = e.program.map((item, index) => {
-    if (Array.isArray(item)) return `<article class="program-item"><div class="program-time">${item[0]}</div><div><p class="program-index">${String(index + 1).padStart(2,'0')}</p><h3>${item[1]}</h3><p class="program-guest">${item[2]}</p><p class="program-description">${item[3]}</p></div><span class="program-symbol">✦</span></article>`;
-    const day = item.day ? `<p class="program-day">${item.day}</p>` : '';
+  const programRoot = document.querySelector('[data-program]');
+  const dayNavItems = [];
+  const seenDays = new Set();
+  const slugifyDay = (label) => label
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+  programRoot.innerHTML = e.program.map((item, index) => {
+    if (Array.isArray(item)) {
+      const flip = index % 2 === 1 ? ' program-item--flip' : '';
+      return `<article class="program-item${flip}"><div class="program-time">${item[0]}</div><div><p class="program-index">${String(index + 1).padStart(2,'0')}</p><div class="program-title-row"><h3>${item[1]}</h3><span class="program-symbol" aria-hidden="true">✦</span></div><p class="program-guest">${item[2]}</p><p class="program-description">${item[3]}</p></div></article>`;
+    }
+    let day = '';
+    if (item.day) {
+      const shortLabel = item.day.split('·')[0].trim();
+      const dayId = `day-${slugifyDay(shortLabel)}`;
+      if (!seenDays.has(dayId)) {
+        seenDays.add(dayId);
+        dayNavItems.push({ id: dayId, label: shortLabel });
+      }
+      day = `<p class="program-day" id="${dayId}">${item.day}</p>`;
+    }
     const label = item.label ? `<p class="program-label">${item.label}</p>` : '';
+    const flip = index % 2 === 1 ? ' program-item--flip' : '';
     const portraitPeople = item.people.filter(person => person.photo);
     const portraits = portraitPeople.map(person => `<img src="${themeAsset(person.photo)}" alt="${person.name}" loading="lazy" />`).join('');
     const portraitClass = portraitPeople.length > 1 ? `speaker-portraits speaker-portraits--group speaker-portraits--${portraitPeople.length}` : 'speaker-portraits';
     const people = item.people.map(person => `<div class="speaker"><h4>${person.name}</h4><p>${person.role}</p></div>`).join('');
     const description = item.description.map(text => `<p>${text}</p>`).join('');
     const gallery = item.gallery?.length ? `<div class="event-gallery"><p class="gallery-label">Dentro l’incontro</p><div class="gallery-grid">${item.gallery.map((photo, photoIndex) => { const image = themeAsset(photo); return `<button type="button" class="gallery-image" data-gallery-src="${image}" aria-label="Apri foto ${photoIndex + 1} di ${item.title}"><img src="${image}" alt="Momento dal talk ${item.title}" loading="lazy" /></button>`; }).join('')}</div></div>` : '';
-    return `${day}<article class="program-item program-item--full"><div class="program-time">${item.time}</div><div class="program-full-content"><p class="program-index">${String(index + 1).padStart(2,'0')}</p>${label}<h3>${item.title}</h3><div class="program-full-body${portraits ? '' : ' no-portrait'}"><div class="${portraitClass}">${portraits}</div><div><div class="speaker-list">${people}</div><div class="program-description">${description}</div>${gallery}</div></div></div><span class="program-symbol">✦</span></article>`;
+    return `${day}<article class="program-item program-item--full${flip}"><div class="program-time">${item.time}</div><div class="program-full-content"><p class="program-index">${String(index + 1).padStart(2,'0')}</p>${label}<div class="program-title-row"><h3>${item.title}</h3><span class="program-symbol" aria-hidden="true">✦</span></div><div class="program-full-body${portraits ? '' : ' no-portrait'}"><div class="${portraitClass}">${portraits}</div><div><div class="speaker-list">${people}</div><div class="program-description">${description}</div>${gallery}</div></div></div></article>`;
   }).join('');
+
+  const existingNav = document.querySelector('.program-day-nav');
+  existingNav?.remove();
+  if (dayNavItems.length > 1) {
+    const nav = document.createElement('nav');
+    nav.className = 'program-day-nav';
+    nav.setAttribute('aria-label', 'Giorni del programma');
+    nav.innerHTML = dayNavItems.map(({ id, label }) => `<a href="#${id}">${label}</a>`).join('');
+    programRoot.before(nav);
+
+    const links = [...nav.querySelectorAll('a')];
+    const sections = dayNavItems.map(({ id }) => document.getElementById(id)).filter(Boolean);
+    const setActive = () => {
+      const headerOffset = (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h'), 10) || 80) + 48;
+      let current = sections[0];
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top - headerOffset <= 0) current = section;
+      }
+      links.forEach((link) => {
+        const active = current && link.getAttribute('href') === `#${current.id}`;
+        link.classList.toggle('is-active', Boolean(active));
+      });
+    };
+    setActive();
+    window.addEventListener('scroll', setActive, { passive: true });
+  }
 }
 
-document.querySelector('#year')?.append(new Date().getFullYear());
+const yearEl = document.querySelector('#year'); if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 editionPage();
 const header = document.querySelector('.site-header');
 const updateHeaderState = () => header?.classList.toggle('is-scrolled', window.scrollY > 40);
@@ -214,7 +262,7 @@ function getLightbox() { let dialog = document.querySelector('.image-lightbox');
 document.addEventListener('click', (event) => { const trigger = event.target.closest('.gallery-image'); if (!trigger) return; const dialog = getLightbox(); dialog.querySelector('img').src = trigger.dataset.gallerySrc; dialog.showModal(); });
 document.addEventListener('click', (event) => { const dialog = document.querySelector('.image-lightbox'); if (dialog && (event.target.closest('.lightbox-close') || event.target === dialog)) dialog.close(); });
 const observer = new IntersectionObserver((entries) => entries.forEach(entry => { if (!entry.isIntersecting) return; entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }), { threshold: .12 });
-document.querySelectorAll('.edition-card,.values-grid article,.project-card,.faq details,.program-item,.quote-band p').forEach((el, index) => {
+document.querySelectorAll('.edition-card,.values-grid article,.project-card,.faq details,.program-item,.quote-band p,.gallery-strip,.next-edition,.collab-card').forEach((el, index) => {
   el.classList.add('reveal');
   el.style.setProperty('--reveal-delay', `${(index % 4) * 70}ms`);
   observer.observe(el);
