@@ -26,16 +26,17 @@
   <title>Collaborazioni — NoTaboo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="navigation.css" />
   <link rel="stylesheet" href="collaborazioni.css" />
 </head>
 <body class="collab-page">
+  <a class="skip-link" href="#rete">Vai alla rete</a>
   <div class="grain" aria-hidden="true"></div>
   <header class="site-header">
     <a class="brand" href="index.html" aria-label="NoTaboo, home">
-      <span class="brand-mark">N!</span><span>NOTABOO</span>
+      <span class="brand-mark" aria-hidden="true">N!</span><span class="brand-word">NOTABOO</span>
     </a>
     <nav class="desktop-nav" aria-label="Navigazione principale">
       <a href="index.html#manifesto">Manifesto</a>
@@ -45,9 +46,9 @@
       <a href="index.html#domande">FAQ</a>
     </nav>
     <a class="nav-cta" href="index.html#iscrizioni">Partecipa <span>↗</span></a>
-    <button class="menu-button" aria-label="Apri il menu" aria-expanded="false"><i></i><i></i></button>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Apri menu"><i></i><i></i></button>
   </header>
-  <nav class="mobile-menu" aria-label="Navigazione mobile">
+  <nav id="mobile-menu" class="mobile-menu" aria-label="Menu mobile">
     <a href="index.html#manifesto">Manifesto</a><a href="index.html#progetto">Il progetto</a><a href="index.html#edizioni">Edizioni</a><a class="is-active" href="collaborazioni.html" aria-current="page">Collaborazioni</a><a href="index.html#domande">FAQ</a><a href="index.html#iscrizioni">Partecipa ↗</a>
   </nav>
 
@@ -105,7 +106,18 @@
     </section>
   </main>
 
-  <footer class="site-footer"><a class="brand" href="index.html"><span class="brand-mark">N!</span><span>NOTABOO</span></a><p>Corpi in libertà · relazioni in movimento</p><p>© <span id="year"></span> NoTaboo</p></footer>
+  <footer class="site-footer">
+    <a class="brand" href="index.html" aria-label="NoTaboo, home">
+      <span class="brand-mark" aria-hidden="true">N!</span><span class="brand-word">NOTABOO</span>
+    </a>
+    <p>Corpi in libertà · relazioni in movimento · Bologna</p>
+    <div class="footer-links">
+      <a href="index.html#edizioni">Edizioni</a>
+      <a href="index.html#iscrizioni">Partecipa</a>
+      <a href="mailto:notaboo.evoluzione@gmail.com">Contatto</a>
+    </div>
+    <p>© <span id="year"></span> NoTaboo</p>
+  </footer>
   <script src="app.js"></script>
 </body>
 </html>

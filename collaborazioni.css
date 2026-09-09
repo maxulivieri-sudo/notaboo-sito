@@ -1,7 +1,7 @@
 body.collab-page {
   background:
     radial-gradient(circle at 10% 15%, rgba(230, 255, 72, .28), transparent 28%),
-    radial-gradient(circle at 84% 12%, rgba(231, 76, 71, .22), transparent 24%),
+    radial-gradient(circle at 84% 12%, rgba(194, 52, 48, .22), transparent 24%),
     var(--paper);
   color: var(--ink);
 }
@@ -241,4 +241,40 @@ body.collab-page {
   .collab-cta {
     border-radius: 26px;
   }
+}
+
+
+/* redesign align */
+.collab-page .site-header:not(.is-scrolled) {
+  color: var(--ink);
+}
+
+.collab-page .site-header:not(.is-scrolled) .brand-mark {
+  background: var(--coral);
+  color: #fff;
+}
+
+.collab-page .hero-jump,
+.collab-page .pill-link {
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 700;
+  font-family: var(--sans);
+  min-height: 48px;
+}
+
+.collab-page .collab-cta .pill-link {
+  background: var(--acid);
+  color: var(--ink);
+}
+
+.collab-page .hero-jump:focus-visible,
+.collab-page .pill-link:focus-visible,
+.collab-card:focus-within {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+}
+
+.collab-card__tag {
+  color: var(--coral);
 }
