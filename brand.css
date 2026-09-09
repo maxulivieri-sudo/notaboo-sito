@@ -7,9 +7,12 @@
   background: #000;
   border-radius: 4px;
   display: block;
-  height: 42px;
+  flex-shrink: 0;
+  height: 30px;
+  max-height: 30px;
+  max-width: 30px;
   object-fit: contain;
-  width: 42px;
+  width: 30px;
 }
 
 .brand-mark {

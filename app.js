@@ -57,7 +57,17 @@ const themeAsset = (path) => {
   if (!path || /^(?:https?:|data:|\/\/)/i.test(path)) return path;
   return themeUrl ? `${themeUrl}/${path.replace(/^\//, '')}` : path;
 };
-const officialLogo = themeAsset('assets/brand/logo-notaboo.png');
+// Keep the small text mark "N!" in the header/footer — do not inject the
+// full circular logo-notaboo.png graphic (3517×3517), which blows up when
+// brand.css lags or fails to load (e.g. htmlpreview).
+const brandMarkFavicon =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">' +
+      '<rect width="32" height="32" rx="16" fill="#e6ff48"/>' +
+      '<text x="16" y="21" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" font-weight="700" fill="#0d0d0d">N!</text>' +
+    '</svg>'
+  );
 
 // Nel prototipo statico questi fogli non sono nel markup iniziale. Nel tema
 // WordPress sono invece già caricati da functions.php: evitarne un secondo
@@ -72,16 +82,9 @@ if (!themeUrl) {
 }
 const favicon = document.querySelector('link[rel~="icon"]') || document.createElement('link');
 favicon.rel = 'icon';
-favicon.type = 'image/png';
-favicon.href = officialLogo;
+favicon.type = 'image/svg+xml';
+favicon.href = brandMarkFavicon;
 if (!favicon.parentNode) document.head.append(favicon);
-document.querySelectorAll('.brand-mark').forEach((mark) => {
-  const logo = document.createElement('img');
-  logo.className = 'brand-logo';
-  logo.src = officialLogo;
-  logo.alt = '';
-  mark.replaceWith(logo);
-});
 
 const P2025 = 'assets/edizione-2025/wordpress/';
 const P2026 = 'assets/edizione-2026/';

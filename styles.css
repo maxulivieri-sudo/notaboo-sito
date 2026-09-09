@@ -122,6 +122,7 @@ button {
 /* —— Header / nav —— */
 .site-header {
   align-items: center;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent);
   display: flex;
   height: var(--header-h);
   justify-content: space-between;
@@ -161,6 +162,19 @@ button {
   justify-content: center;
   letter-spacing: -0.1em;
   width: 30px;
+  flex-shrink: 0;
+}
+
+/* Safety: if an <img> brand mark is reintroduced, never let the full
+   circular logo render unconstrained (htmlpreview / lagged brand.css). */
+.brand img,
+.brand-logo {
+  width: 30px;
+  height: 30px;
+  max-width: 30px;
+  max-height: 30px;
+  object-fit: contain;
+  display: block;
   flex-shrink: 0;
 }
 
@@ -377,7 +391,7 @@ button {
 }
 
 .hero-art {
-  background-image: url("Edizione%202026/Grafica/Sito/header%20immagine.png");
+  background-image: url("assets/home/header-2026.png");
   background-position: 74% 52%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -385,8 +399,8 @@ button {
   opacity: 0.98;
   position: absolute;
   z-index: -2;
-  transform: scale(1.04);
-  animation: art-breathe 14s ease-in-out infinite alternate;
+  transform: none;
+  animation: none;
 }
 
 .hero-copy {
@@ -481,8 +495,9 @@ button {
   margin-left: 8px;
 }
 
+/* art-breathe disabled — static hero background (avoids scroll "movement") */
 @keyframes art-breathe {
-  to { transform: scale(1.1) translate(-1%, 1%); }
+  to { transform: none; }
 }
 
 /* —— Manifesto —— */
@@ -1024,6 +1039,36 @@ summary:focus-visible {
 .footer-links a:focus-visible {
   outline: 2px solid var(--acid);
   outline-offset: 4px;
+}
+
+
+/* Tablet / iPad landscape: desktop nav shows at ≥761px but padding was too tight. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  :root {
+    --header-h: 74px;
+  }
+
+  .site-header {
+    height: var(--header-h);
+    padding: 0 24px;
+  }
+
+  .desktop-nav {
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    justify-content: center;
+    row-gap: 6px;
+  }
+
+  .nav-cta {
+    padding: 9px 14px;
+    font-size: 12px;
+  }
+
+  .brand {
+    font-size: 16px;
+  }
 }
 
 @media (min-width: 761px) {
