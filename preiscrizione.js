@@ -3,6 +3,11 @@
   const body = document.body;
   const now = new Date();
 
+  // L'apertura deve comparire anche se app.js è in cache in una versione vecchia.
+  document.querySelectorAll('.prereg-hero .reveal').forEach((el, index) => {
+    setTimeout(() => el.classList.add('is-visible'), 150 + index * 130);
+  });
+
   const festival = new Date(body.dataset.festival);
   const countdown = document.querySelector('[data-countdown]');
   if (countdown && !Number.isNaN(festival.getTime())) {

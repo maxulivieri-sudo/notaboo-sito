@@ -31,48 +31,115 @@
   background: #111;
 }
 
-/* NoTaboo 2027: annuncio nell'hero e card "misteriosa" in archivio. */
-.hero-announce {
-  align-items: center;
-  background: rgba(13, 13, 13, .55);
-  border: 1px solid rgba(230, 255, 72, .55);
-  border-radius: var(--radius-pill);
-  color: #fff;
-  display: inline-flex;
-  font: 500 12px var(--mono);
+/* NoTaboo 2027: biglietto in alto a destra nell'hero e card "misteriosa" in archivio. */
+.hero-2027 {
+  background: var(--acid);
+  border-radius: 22px;
+  box-shadow: 9px 9px 0 var(--coral);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
   gap: 10px;
-  letter-spacing: .04em;
-  margin-bottom: 26px;
-  padding: 9px 16px;
-  transition: background .25s ease, color .25s ease;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  padding: 22px 24px 20px;
+  position: absolute;
+  right: 7vw;
+  top: calc(var(--header-h) + 44px);
+  transform: rotate(-3deg);
+  transition: transform .35s var(--ease), box-shadow .35s ease;
+  width: clamp(250px, 22vw, 320px);
+  z-index: 3;
 }
 
-.hero-announce strong {
-  color: var(--acid);
-  font-weight: 500;
+.hero-2027.reveal.is-visible {
+  transform: rotate(-3deg);
 }
 
-.hero-announce:hover {
-  background: var(--acid);
-  color: var(--ink);
+.hero-2027:hover,
+.hero-2027:focus-visible,
+.hero-2027.reveal.is-visible:hover {
+  box-shadow: 13px 13px 0 var(--coral);
+  transform: rotate(0deg) translateY(-4px);
 }
 
-.hero-announce:hover strong {
-  color: var(--ink);
+.hero-2027__badge {
+  align-items: center;
+  display: inline-flex;
+  font: 500 11px var(--mono);
+  gap: 8px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
 }
 
-.hero-announce__dot {
+.hero-2027__dot {
   animation: announce-pulse 1.8s ease-in-out infinite;
-  background: var(--acid);
+  background: var(--coral);
   border-radius: 50%;
-  height: 8px;
-  width: 8px;
+  height: 9px;
+  width: 9px;
 }
 
 @keyframes announce-pulse {
   50% { opacity: .3; transform: scale(.7); }
+}
+
+.hero-2027__title {
+  font: 700 clamp(2rem, 2.8vw, 2.8rem) / .9 var(--space);
+  letter-spacing: -.06em;
+  text-transform: uppercase;
+}
+
+.hero-2027__date {
+  font: 600 15px / 1.35 var(--space);
+  letter-spacing: -.01em;
+}
+
+.hero-2027__cta {
+  align-items: center;
+  align-self: flex-start;
+  background: var(--ink);
+  border-radius: var(--radius-pill);
+  color: var(--acid);
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 700;
+  gap: 10px;
+  margin-top: 4px;
+  padding: 11px 16px;
+}
+
+@media (max-width: 760px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .hero-2027 {
+    margin: calc(var(--header-h) + 20px) 16px 0;
+    position: relative;
+    right: auto;
+    top: auto;
+    width: auto;
+  }
+
+  .hero-2027__title {
+    font-size: 2rem;
+  }
+
+  .hero .hero-copy {
+    flex: 1;
+    padding-top: 32px;
+  }
+
+  /* Su mobile il biglietto 2027 prende il posto del timbro, che altrimenti
+     finirebbe sopra ai pulsanti. */
+  .hero .hero-stamp {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-2027__dot {
+    animation: none;
+  }
 }
 
 .image-2027 {
@@ -107,17 +174,4 @@
 
 .edition-card--2027 .date-chip {
   background: var(--acid);
-}
-
-@media (max-width: 760px) {
-  .hero-announce {
-    font-size: 11px;
-    padding: 8px 12px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-announce__dot {
-    animation: none;
-  }
 }

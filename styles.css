@@ -248,6 +248,24 @@ button {
   border-color: #fff;
 }
 
+/* Pulsante "Pre-iscriviti": pieno, ben visibile sia sull'hero scuro sia
+   sull'header chiaro dopo lo scroll. */
+.site-header .nav-cta.nav-cta--hot {
+  background: var(--acid);
+  border-color: var(--acid);
+  color: var(--ink);
+}
+
+.site-header .nav-cta.nav-cta--hot:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--acid);
+}
+
+.site-header.is-scrolled .nav-cta.nav-cta--hot {
+  border-color: var(--ink);
+}
+
 .menu-button {
   background: transparent;
   border: 0;
