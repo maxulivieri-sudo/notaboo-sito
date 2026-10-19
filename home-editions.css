@@ -30,3 +30,94 @@
 .image-2024 {
   background: #111;
 }
+
+/* NoTaboo 2027: annuncio nell'hero e card "misteriosa" in archivio. */
+.hero-announce {
+  align-items: center;
+  background: rgba(13, 13, 13, .55);
+  border: 1px solid rgba(230, 255, 72, .55);
+  border-radius: var(--radius-pill);
+  color: #fff;
+  display: inline-flex;
+  font: 500 12px var(--mono);
+  gap: 10px;
+  letter-spacing: .04em;
+  margin-bottom: 26px;
+  padding: 9px 16px;
+  transition: background .25s ease, color .25s ease;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.hero-announce strong {
+  color: var(--acid);
+  font-weight: 500;
+}
+
+.hero-announce:hover {
+  background: var(--acid);
+  color: var(--ink);
+}
+
+.hero-announce:hover strong {
+  color: var(--ink);
+}
+
+.hero-announce__dot {
+  animation: announce-pulse 1.8s ease-in-out infinite;
+  background: var(--acid);
+  border-radius: 50%;
+  height: 8px;
+  width: 8px;
+}
+
+@keyframes announce-pulse {
+  50% { opacity: .3; transform: scale(.7); }
+}
+
+.image-2027 {
+  background:
+    radial-gradient(circle at 75% 30%, rgba(194, 52, 48, .55), transparent 45%),
+    #0b0b0b;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+  padding: 0 14% 0 30%;
+}
+
+.image-2027__redacted {
+  background: #f6f2ec;
+  display: block;
+  height: 22px;
+  width: 100%;
+}
+
+.image-2027__redacted--short {
+  width: 62%;
+}
+
+.image-2027__q {
+  color: var(--acid);
+  font: 700 clamp(4rem, 8vw, 7rem) / .8 var(--space);
+  position: absolute;
+  right: 10%;
+  bottom: 8%;
+}
+
+.edition-card--2027 .date-chip {
+  background: var(--acid);
+}
+
+@media (max-width: 760px) {
+  .hero-announce {
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-announce__dot {
+    animation: none;
+  }
+}

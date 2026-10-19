@@ -265,11 +265,11 @@ function getLightbox() { let dialog = document.querySelector('.image-lightbox');
 document.addEventListener('click', (event) => { const trigger = event.target.closest('.gallery-image'); if (!trigger) return; const dialog = getLightbox(); dialog.querySelector('img').src = trigger.dataset.gallerySrc; dialog.showModal(); });
 document.addEventListener('click', (event) => { const dialog = document.querySelector('.image-lightbox'); if (dialog && (event.target.closest('.lightbox-close') || event.target === dialog)) dialog.close(); });
 const observer = new IntersectionObserver((entries) => entries.forEach(entry => { if (!entry.isIntersecting) return; entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }), { threshold: .12 });
-document.querySelectorAll('.edition-card,.values-grid article,.project-card,.faq details,.program-item,.quote-band p,.gallery-strip,.next-edition,.collab-card').forEach((el, index) => {
+document.querySelectorAll('.edition-card,.values-grid article,.project-card,.faq details,.program-item,.quote-band p,.gallery-strip,.next-edition,.collab-card,.prereg-card,.step,.redacted-list li').forEach((el, index) => {
   el.classList.add('reveal');
   el.style.setProperty('--reveal-delay', `${(index % 4) * 70}ms`);
   observer.observe(el);
 });
 requestAnimationFrame(() => {
-  document.querySelectorAll('.hero .reveal, .collab-hero .reveal').forEach((el, index) => setTimeout(() => el.classList.add('is-visible'), 150 + index * 130));
+  document.querySelectorAll('.hero .reveal, .collab-hero .reveal, .prereg-hero .reveal').forEach((el, index) => setTimeout(() => el.classList.add('is-visible'), 150 + index * 130));
 });
