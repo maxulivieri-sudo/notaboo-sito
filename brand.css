@@ -5,23 +5,15 @@
 
 .brand-logo {
   background: #000;
-  border-radius: 4px;
-  display: block;
-  flex-shrink: 0;
-  height: 30px;
-  max-height: 30px;
-  max-width: 30px;
-  object-fit: contain;
-  width: 30px;
-}
-
-.brand-mark {
+  border-radius: 50%;
   box-shadow: 0 0 0 2px transparent;
+  transition: box-shadow 0.2s ease, transform 0.3s var(--ease, ease);
 }
 
-.brand:focus-visible .brand-mark,
-.brand:hover .brand-mark {
+.brand:focus-visible .brand-logo,
+.brand:hover .brand-logo {
   box-shadow: 0 0 0 2px currentColor;
+  transform: rotate(-8deg);
 }
 
 .brand-word {

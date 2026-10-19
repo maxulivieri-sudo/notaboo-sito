@@ -165,17 +165,28 @@ button {
   flex-shrink: 0;
 }
 
-/* Safety: if an <img> brand mark is reintroduced, never let the full
-   circular logo render unconstrained (htmlpreview / lagged brand.css). */
+/* Logo ufficiale: dimensioni bloccate anche se brand.css arriva in ritardo,
+   così l'immagine non può mai esplodere a tutta pagina. */
 .brand img,
 .brand-logo {
-  width: 30px;
-  height: 30px;
-  max-width: 30px;
-  max-height: 30px;
+  width: 44px;
+  height: 44px;
+  max-width: 44px;
+  max-height: 44px;
   object-fit: contain;
   display: block;
   flex-shrink: 0;
+  border-radius: 50%;
+}
+
+@media (max-width: 760px) {
+  .brand img,
+  .brand-logo {
+    width: 38px;
+    height: 38px;
+    max-width: 38px;
+    max-height: 38px;
+  }
 }
 
 .desktop-nav {
