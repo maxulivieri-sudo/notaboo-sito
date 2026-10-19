@@ -64,11 +64,16 @@ const brandFavicon = themeAsset('assets/brand/logo-notaboo-64.png');
 // Nel prototipo statico questi fogli non sono nel markup iniziale. Nel tema
 // WordPress sono invece già caricati da functions.php: evitarne un secondo
 // caricamento con un URL relativo, che nelle pagine /edizione-xxxx/ darebbe 404.
+// Versione dei file: va aggiornata insieme ai ?v= nelle pagine HTML, così
+// browser e cache di Hostinger scaricano sempre i fogli di stile nuovi.
+const ASSET_VERSION = '20261019b';
+const hasStylesheet = (name) => Boolean(document.querySelector(`link[href^="${name}"]`));
 if (!themeUrl) {
   ['brand.css', 'typography.css', 'deployment.css'].forEach((stylesheet) => {
+    if (hasStylesheet(stylesheet)) return;
     const style = document.createElement('link');
     style.rel = 'stylesheet';
-    style.href = stylesheet;
+    style.href = `${stylesheet}?v=${ASSET_VERSION}`;
     document.head.append(style);
   });
 }
@@ -134,22 +139,22 @@ function editionPage() {
   const year = document.body.dataset.edition || new URLSearchParams(window.location.search).get('year');
   const e = editionData[year];
   if (!e) return;
-  if ((year === '2025' || year === '2026') && !document.querySelector('link[href="edition-2024.css"]')) {
+  if ((year === '2025' || year === '2026') && !hasStylesheet('edition-2024.css')) {
     const archiveStyles = document.createElement('link');
     archiveStyles.rel = 'stylesheet';
-    archiveStyles.href = themeAsset('edition-2024.css');
+    archiveStyles.href = themeAsset(`edition-2024.css?v=${ASSET_VERSION}`);
     document.head.append(archiveStyles);
   }
-  if (!document.querySelector('link[href="multi-speakers.css"]')) {
+  if (!hasStylesheet('multi-speakers.css')) {
     const groupStyles = document.createElement('link');
     groupStyles.rel = 'stylesheet';
-    groupStyles.href = themeAsset('multi-speakers.css');
+    groupStyles.href = themeAsset(`multi-speakers.css?v=${ASSET_VERSION}`);
     document.head.append(groupStyles);
   }
-  if (!document.querySelector('link[href="navigation.css"]')) {
+  if (!hasStylesheet('navigation.css')) {
     const navigationStyles = document.createElement('link');
     navigationStyles.rel = 'stylesheet';
-    navigationStyles.href = themeAsset('navigation.css');
+    navigationStyles.href = themeAsset(`navigation.css?v=${ASSET_VERSION}`);
     document.head.append(navigationStyles);
   }
   document.title = `NoTaboo ${e.year} — ${e.theme}`;
